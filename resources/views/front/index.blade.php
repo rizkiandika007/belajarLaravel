@@ -36,7 +36,7 @@
 		<nav id="Category" class="max-w-[1130px] mx-auto flex justify-center items-center gap-4 mt-[30px]">
 
 		@foreach ($categories as $category)
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
+			<a href="{{route('front.category', $category->slug)}}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
 				<div class="w-6 h-6 flex shrink-0">
 					<img src="{{Storage::url($category->icon)}}" alt="icon" />
 				</div>
@@ -48,14 +48,16 @@
 		</nav>
 		<section id="Featured" class="mt-[30px]">
 			<div class="main-carousel w-full">
+
+			@forelse ($featured_articles as $article)
 				<div class="featured-news-card relative w-full h-[550px] flex shrink-0 overflow-hidden">
-					<img src="assets/images/thumbnails/th-featured-1.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
+					<img src="{{storage::url($article->thumbnail)}}" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
 					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
 					<div class="card-detail max-w-[1130px] w-full mx-auto flex items-end justify-between pb-10 relative z-20">
 						<div class="flex flex-col gap-[10px]">
 							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">Generation Z Prefer Remote Working Than Big Salary</a>
-							<p class="text-white">12 Jun, 2024 • Business</p>
+							<a href="{{route('front.details', $article->slug)}}" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">{{$article->name}}</a>
+							<p class="text-white">{{$article->created_at->format('M d, Y')}} • {{$article->category->name}}</p>
 						</div>
 						<div class="prevNextButtons flex items-center gap-4 mb-[60px]">
 							<button class="button--previous appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
@@ -67,44 +69,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="featured-news-card relative w-full h-[550px] flex shrink-0 overflow-hidden">
-					<img src="assets/images/thumbnails/th-featured-1.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
-					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
-					<div class="card-detail max-w-[1130px] w-full mx-auto flex items-end justify-between pb-10 relative z-20">
-						<div class="flex flex-col gap-[10px]">
-							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">Generation Z Prefer Remote Working Than Big Salary</a>
-							<p class="text-white">12 Jun, 2024 • Business</p>
-						</div>
-						<div class="prevNextButtons flex items-center gap-4 mb-[60px]">
-							<button class="button--previous appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<img src="assets/images/icons/arrow.svg" alt="arrow" />
-							</button>
-							<button class="button--next appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 rotate-180">
-								<img src="assets/images/icons/arrow.svg" alt="arrow" />
-							</button>
-						</div>
-					</div>
-				</div>
-				<div class="featured-news-card relative w-full h-[550px] flex shrink-0 overflow-hidden">
-					<img src="assets/images/thumbnails/th-featured-1.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
-					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
-					<div class="card-detail max-w-[1130px] w-full mx-auto flex items-end justify-between pb-10 relative z-20">
-						<div class="flex flex-col gap-[10px]">
-							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-4xl leading-[45px] text-white two-lines hover:underline transition-all duration-300">Generation Z Prefer Remote Working Than Big Salary</a>
-							<p class="text-white">12 Jun, 2024 • Business</p>
-						</div>
-						<div class="prevNextButtons flex items-center gap-4 mb-[60px]">
-							<button class="button--previous appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<img src="assets/images/icons/arrow.svg" alt="arrow" />
-							</button>
-							<button class="button--next appearance-none w-[38px] h-[38px] flex items-center justify-center rounded-full shrink-0 ring-1 ring-white hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 rotate-180">
-								<img src="assets/images/icons/arrow.svg" alt="arrow" />
-							</button>
-						</div>
-					</div>
-				</div>
+				@empty
+				<p>belum ada data terbaru</p>
+				@endforelse
+
+
 			</div>
 		</section>
 		<section id="Up-to-date" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
@@ -117,22 +86,22 @@
 			</div>
 			<div class="grid grid-cols-3 gap-[30px]">
 
-			<!-- @forelse {$articles as $article}
+			@forelse ($articles as $article)
 				<a href="{{route('front.details', $article->slug)}}" class="card-news">
 					<div class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
 						<div class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
 							<p class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">{{$article->category->name}}</p>
-							<img src="{{storage::url($article->thumbnail}}" class="object-cover w-full h-full" alt="thumbnail" />
+							<img src="{{storage::url($article->thumbnail)}}" class="object-cover w-full h-full" alt="thumbnail" />
 						</div>
 						<div class="card-info flex flex-col gap-[6px]">
 							<h3 class="font-bold text-lg leading-[27px]">{{$article->name}}</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at->format('M D, Y')}}</p>
+							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at->format('M y, Y')}}</p>
 						</div>
 					</div>
 				</a>
 				@empty
 				<p>belum ada berita terbaru.....</p>
-				@endforelse -->
+				@endforelse
 
 			</div>
 		</section>
@@ -145,80 +114,42 @@
 				</h2>
 			</div>
 			<div class="grid grid-cols-6 gap-[30px]">
-				<a href="author.html" class="card-authors">
+
+
+					@forelse ($authors as $author)
+				</a>
+				<a href="{{route('front.author', $author->slug)}}" class="card-authors">
 					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo.png" class="object-cover w-full h-full" alt="avatar" />
+							<img src="{{storage::url($author->avatar)}}" class="object-cover w-full h-full" alt="avatar" />
 						</div>
 						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Junior Parrito</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">3,492 News</p>
+							<p class="font-semibold">{{$author->name}}</p>
+							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$author->news->count()}} News</p>
 						</div>
 					</div>
 				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo1.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Sabrina Juli</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">312 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo2.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Ijan Malawi</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">44 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo3.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Rita Putria</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">15,398 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo4.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Shayna Xin</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">3,492 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo5.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Dhi Pakao</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">223 News</p>
-						</div>
-					</div>
-				</a>
+				@empty
+				<p>belum ada data</p>
+				@endforelse
+
+
+
 			</div>
 		</section>
 		<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px]">
 			<div class="flex flex-col gap-3 shrink-0 w-fit">
-				<a href="#">
+
+			@if ($bannerads)
+				<a href="{{$bannerads->link}}">
 					<div class="w-[900px] h-[120px] flex shrink-0 border border-[#EEF0F7] rounded-2xl overflow-hidden">
-						<img src="assets/images/iklans/bannerWide1.png" class="object-cover w-full h-full" alt="ads" />
+						<img src="{{storage::url($bannerads->thumbnail)}}" class="object-cover w-full h-full" alt="ads" />
 					</div>
+					@else
+					<p>Belum Tersedia</p>
+					@endif
+
+
 				</a>
 				<p class="font-medium text-sm leading-[21px] text-[#A3A6AE] flex gap-1">
 					Our Advertisement <a href="#" class="w-[18px] h-[18px]"><img src="assets/images/icons/message-question.svg" alt="icon" /></a>
@@ -233,86 +164,46 @@
 				</h2>
 				<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">Explore All</a>
 			</div>
+			
+			@if ($entertaiment_featured_articles)
 			<div class="flex justify-between items-center h-fit">
 				<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-					<img src="assets/images/thumbnails/th-featured-1.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
+					<img src="{{storage::url($entertaiment_featured_articles->thumbnail)}}" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
 					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
 					<div class="card-detail w-full flex items-end p-[30px] relative z-20">
 						<div class="flex flex-col gap-[10px]">
 							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">Rela Tampil Menarik Depan Wanita, Pria Ini Jadi Bahan Bicaraan</a>
-							<p class="text-white">12 Jun, 2024</p>
+							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">{{$entertaiment_featured_articles->name}}</a>
+							<p class="text-white">{{$entertaiment_featured_articles->created_at->format('M d, Y')}}</p>
 						</div>
 					</div>
 				</div>
+				@else
+   				 <p class="text-gray-500 italic">Belum ada artikel entertainment yang featured.</p>
+				@endif
+
+
 				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
 					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						<a href="details.html" class="card py-[2px]">
+
+
+
+					@forelse($entertaiment_articles as $article)
+						<a href="{{route('front.details', $article->slug)}}" class="card py-[2px]">
 							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/th-sunbathe.png" class="object-cover w-full h-full" alt="thumbnail" />
+									<img src="{{storage::url($article->thumbnail)}}" class="object-cover w-full h-full" alt="thumbnail" />
 								</div>
 								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+									<h3 class="font-bold text-lg leading-[27px]">{{substr($article->name,0,50)}}...</h3>
+									<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at->format('M d, Y')}}</p>
 								</div>
 							</div>
 						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Gaya pakaian pernikahan artis ini beneran unik</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/th-cyclist.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Tips bersepeda bareng pasangan baru, makin seru!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
+						@empty
+						<p>belum ada berita terbaru</p>
+						@endforelse
+					
 					</div>
 					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
 				</div>
@@ -322,90 +213,49 @@
 			<div class="flex justify-between items-center">
 				<h2 class="font-bold text-[26px] leading-[39px]">
 					Latest For You <br />
-					in Business
+					in Bisnis
 				</h2>
 				<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">Explore All</a>
 			</div>
+
+			@if ($bisnis_featured_articles)
 			<div class="flex justify-between items-center h-fit">
 				<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-					<img src="assets/images/thumbnails/th-featured-1.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
+					<img src="{{storage::url($bisnis_featured_articles->thumbnail)}}" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
 					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
 					<div class="card-detail w-full flex items-end p-[30px] relative z-20">
 						<div class="flex flex-col gap-[10px]">
 							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">Rela Tampil Menarik Depan Wanita, Pria Ini Jadi Bahan Bicaraan</a>
-							<p class="text-white">12 Jun, 2024</p>
+							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">{{$bisnis_featured_articles->name}}</a>
+							<p class="text-white">{{$bisnis_featured_articles->created_at->format('M d, Y')}}</p>
 						</div>
 					</div>
 				</div>
+				@else
+   				 <p class="text-gray-500 italic">Belum ada artikel entertainment yang featured.</p>
+				@endif
+
+
 				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
 					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						<a href="details.html" class="card py-[2px]">
+
+					@forelse($bisnis_articles as $articles)
+						<a href="{{route('front.details', $article->slug)}}" class="card py-[2px]">
 							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/th-building.png" class="object-cover w-full h-full" alt="thumbnail" />
+									<img src="{{storage::url($article->thumbnail)}}" class="object-cover w-full h-full" alt="thumbnail" />
 								</div>
 								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Angga telah launching office space special edition</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+									<h3 class="font-bold text-lg leading-[27px]">{{substr($article->name,0,50)}}...</h3>
+									<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at_format('M d, Y')}}</p>
 								</div>
 							</div>
 						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/th-key.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Pembelian rumah saat ini tanpa perlu down payment</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Tips trading ala generation Z bikin kita sukses untung</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
+						@empty
+						<p>Belum ada beita terbaru
+						</p>
+						@endforelse
+						
 					</div>
 					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
 				</div>
@@ -415,90 +265,48 @@
 			<div class="flex justify-between items-center">
 				<h2 class="font-bold text-[26px] leading-[39px]">
 					Latest For You <br />
-					in Automotive
+					in Kesehatan
 				</h2>
 				<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">Explore All</a>
 			</div>
+
+			@if ($kesehatan_featured_articles)
 			<div class="flex justify-between items-center h-fit">
 				<div class="featured-news-card relative w-full h-[424px] flex flex-1 rounded-[20px] overflow-hidden">
-					<img src="assets/images/thumbnails/th-bulldozer.png" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
+					<img src="{{storage::url($kesehatan_featured_articles->thumbnail)}}" class="thumbnail absolute w-full h-full object-cover" alt="icon" />
 					<div class="w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.9)] absolute z-10"></div>
 					<div class="card-detail w-full flex items-end p-[30px] relative z-20">
 						<div class="flex flex-col gap-[10px]">
 							<p class="text-white">Featured</p>
-							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">Rela Tampil Menarik Depan Wanita, Pria Ini Jadi Bahan Bicaraan</a>
-							<p class="text-white">12 Jun, 2024</p>
+							<a href="details.html" class="font-bold text-[30px] leading-[36px] text-white hover:underline transition-all duration-300">{{$kesehatan_featured_articles->name}}</a>
+							<p class="text-white">{{$kesehatan_featured_articles->created_at->format('M d, Y')}}</p>
 						</div>
 					</div>
 				</div>
+				@else
+   				 <p class="text-gray-500 italic">Belum ada artikel entertainment yang featured.</p>
+				@endif
+
+
 				<div class="h-[424px] w-fit px-5 overflow-y-scroll overflow-x-hidden relative custom-scrollbar">
 					<div class="w-[455px] flex flex-col gap-5 shrink-0">
-						<a href="details.html" class="card py-[2px]">
+
+						@forelse ($kesehatan_articles as $articles)
+						<a href="{{route('front.details', $article->slug)}}" class="card py-[2px]">
 							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
+									<img src="{{storage::url($article->thumbnail)}}" class="object-cover w-full h-full" alt="thumbnail" />
 								</div>
 								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Tersedia lebih dari 10,000 charger di area kota Bandung</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+									<h3 class="font-bold text-lg leading-[27px]">{{substr($article->name,0,50)}}...</h3>
+									<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->creaed_at->format('M d, Y')}}</p>
 								</div>
 							</div>
 						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Porscha merilis mesin baru bertenaga 5,000 power</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Tesla memperbarui teknologi self driving lebih akurat</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
-						<a href="details.html" class="card py-[2px]">
-							<div class="rounded-[20px] border border-[#EEF0F7] p-[14px] flex items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-								<div class="w-[130px] h-[100px] flex shrink-0 rounded-[20px] overflow-hidden">
-									<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-								</div>
-								<div class="flex flex-col justify-center-center gap-[6px]">
-									<h3 class="font-bold text-lg leading-[27px]">Bikin house party tanpa biaya mahal, begini tipsnya!</h3>
-									<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-								</div>
-							</div>
-						</a>
+						@empty
+						<p>Belum ada berita terbaru</p>
+						@endforelse
+
 					</div>
 					<div class="sticky z-10 bottom-0 w-full h-[100px] bg-gradient-to-b from-[rgba(255,255,255,0.19)] to-[rgba(255,255,255,1)]"></div>
 				</div>
